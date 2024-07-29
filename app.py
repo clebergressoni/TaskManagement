@@ -26,4 +26,11 @@ class ManagementSystem:
         cur.commit()
         cur.close()
 
+    @app.route('/listar-projetos')
+    def listar_projetos(self):
+        conn = sqlite3.connect('projects.db')
+        cur = conn.cursor()
+        cur.execute('SELECT nome, deadline FROM projects')
+        projetos = cur.fetchall()
+        return projetos 
         
