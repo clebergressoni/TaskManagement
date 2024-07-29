@@ -17,4 +17,13 @@ class ManagementSystem:
 ''')
     cur.commit()
     cur.close()
-    
+
+    @app.route('/')
+    def criar_projeto(self, nome, descricao, data_inicio, data_fim):
+        conn = sqlite3.connect('projects.db')
+        cur = conn.cursor()
+        cur.execute('INSERT INTO projects (nome, descricao, data_inicio, data_fim)  VALUES (? , ? , ? , ?)', (nome, descricao, data_inicio, data_fim))
+        cur.commit()
+        cur.close()
+
+        
