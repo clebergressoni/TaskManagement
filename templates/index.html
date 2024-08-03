@@ -3,11 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sistema de Gestão</title>
 </head>
 <body>
 
+    <h1> Gestão de tarefas </h1>
+
+    <form action="/" method ='post'>
+        <label for="name"> Nome da Atividade </label>
+        <input type="text" id="name" name = "name" required>
+        <label for="prioridade">Prioridade</label>
+        <input type="number" id ="prioridade" name = "prioridade">
+        <input type="submit" class = "btn-criar" value = "Criar Tarefa">
+    </form>
+    <form action="/limpar_banco" method = "post" class = "form-limpar"></form>
+        <input type="submit" class = "btn-limpar" value = "Limpar Lista">
     
-    
+    <h2>Lista Tarefas</h2>
+
+    <ul>
+    {% for tarefa in tarefas %}
+        <li> Nome: {{ tarefa [1]}} Prioridade: {{tarefa[2]}} </li>
+    {% endfor %}
+    </ul>
+
 </body>
 </html>

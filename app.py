@@ -3,33 +3,57 @@ import sqlite3
 
 app = Flask(__name__)
 
-class ManagementSystem:
+class SistemaGestao:
     conn = sqlite3.connect('tarefas.db')
     cur = conn.cursor()
     cur.execute('''  
                 CREATE TABLE IF NOT EXISTS tarefas (
                 id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL FOREIGN KEY,
+                name TEXT NOT NULL,
                 prioridade INTEGER NOT NULL)
 ''')
-    cur.commit()
-    cur.close()
+    conn.commit()
+    conn.close()
 
-    @app.route('/')
-    def criar_tarefa(self, nome, prioridade):
+    def criar_tarefa(self, name, prioridade):
         conn = sqlite3.connect('tarefas.db')
         cur = conn.cursor()
-        cur.execute('INSERT INTO tarefas (nome, prioridade)  VALUES (? , ?)', (nome, prioridade))
-        cur.commit()
-        cur.close()
+        cur.execute('INSERT INTO tarefas (name, prioridade)  VALUES (? , ?)', (name, prioridade))
+        conn.commit()
+        conn.close()
 
-    @app.route('/listar-tarefas')
     def listar_tarefas(self):
-        conn = sqlite3.connect('projects.db')
+        conn = sqlite3.connect('tarefas.db')
         cur = conn.cursor()
-        cur.execute('SELECT nome, prioridade FROM projects')
-        projetos = cur.fetchall()
-        return projetos 
-        
+        cur.execute('SELECT name, prioridade FROM tarefas')
+        tarefas = cur.fetchall()
+        return tarefas 
     
-        
+    def limpar_banco(self):
+        conn = sqlite3.connect('tarefas.db')
+        cur = conn.cursor()
+        cur.execute('DELETE FROM tarefas')
+        conn.commit()
+        conn.close()
+
+sistema = SistemaGestao()
+
+@app.route("/", methods = ["POST", "GET"])
+def index():
+    if request.method == "POST":
+        name = request.form['name']
+        prioridade = request.form['prioridade']
+        sistema.criar_tarefa(name, prioridade)
+    
+    tarefa = sistema.listar_tarefas()
+    return render_template("index.html", tarefa = tarefa)
+
+@app.route("/limpar-banco", methods = "POST")
+def limpar_banco_dados():
+    sistema.limpar_banco()
+    tarefa = sistema.listar_tarefas()
+    return render_template("index.html", tarefa = tarefa)
+
+
+if __name__ == "__main__":
+    app.run(debug = True)
