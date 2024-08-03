@@ -7,14 +7,21 @@ class ManagementSystem:
     conn = sqlite3.connect('projects.db')
     cur = conn.cursor()
     cur.execute('''  
-                
                 CREATE TABLE IF NOT EXISTS projects (
                 id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                description TEXT,
-                start_date DATE NOT NULL,
-                deadline DATE NOT NULL)
+                name TEXT NOT NULL FOREIGN KEY,
+                description TEXT NOT NULL)
 ''')
+
+    cur.execute(''' 
+                CREATE TABLE IF NOT EXISTS tarefas (
+                id INTEGER PRIMARY KEY,
+                project_id INTEGER NOT NULL,
+                tarefa TEXT NOT NULL,
+                dead_line DATE NOT NULL,
+                FOREIGN KEY (project_id) REFERENCES projects(id))
+''')
+
     cur.commit()
     cur.close()
 
@@ -33,4 +40,6 @@ class ManagementSystem:
         cur.execute('SELECT nome, deadline FROM projects')
         projetos = cur.fetchall()
         return projetos 
+        
+    
         
