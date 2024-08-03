@@ -4,40 +4,30 @@ import sqlite3
 app = Flask(__name__)
 
 class ManagementSystem:
-    conn = sqlite3.connect('projects.db')
+    conn = sqlite3.connect('tarefas.db')
     cur = conn.cursor()
     cur.execute('''  
-                CREATE TABLE IF NOT EXISTS projects (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL FOREIGN KEY,
-                description TEXT NOT NULL)
-''')
-
-    cur.execute(''' 
                 CREATE TABLE IF NOT EXISTS tarefas (
                 id INTEGER PRIMARY KEY,
-                project_id INTEGER NOT NULL,
-                tarefa TEXT NOT NULL,
-                dead_line DATE NOT NULL,
-                FOREIGN KEY (project_id) REFERENCES projects(id))
+                name TEXT NOT NULL FOREIGN KEY,
+                prioridade INTEGER NOT NULL)
 ''')
-
     cur.commit()
     cur.close()
 
     @app.route('/')
-    def criar_projeto(self, nome, descricao, data_inicio, data_fim):
-        conn = sqlite3.connect('projects.db')
+    def criar_tarefa(self, nome, prioridade):
+        conn = sqlite3.connect('tarefas.db')
         cur = conn.cursor()
-        cur.execute('INSERT INTO projects (nome, descricao, data_inicio, data_fim)  VALUES (? , ? , ? , ?)', (nome, descricao, data_inicio, data_fim))
+        cur.execute('INSERT INTO tarefas (nome, prioridade)  VALUES (? , ?)', (nome, prioridade))
         cur.commit()
         cur.close()
 
-    @app.route('/listar-projetos')
-    def listar_projetos(self):
+    @app.route('/listar-tarefas')
+    def listar_tarefas(self):
         conn = sqlite3.connect('projects.db')
         cur = conn.cursor()
-        cur.execute('SELECT nome, deadline FROM projects')
+        cur.execute('SELECT nome, prioridade FROM projects')
         projetos = cur.fetchall()
         return projetos 
         
