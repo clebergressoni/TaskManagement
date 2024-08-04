@@ -48,7 +48,7 @@ def index():
     tarefa = sistema.listar_tarefas()
     return render_template("index.html", tarefa = tarefa)
 
-@app.route("/limpar-banco", methods = "POST")
+@app.route("/limpar-banco", methods = ["POST"])
 def limpar_banco_dados():
     sistema.limpar_banco()
     tarefa = sistema.listar_tarefas()

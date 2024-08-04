@@ -11,19 +11,18 @@
 
     <form action="/" method ='post'>
         <label for="name"> Nome da Atividade </label>
-        <input type="text" id="name" name = "name" required>
-        <label for="prioridade">Prioridade</label>
-        <input type="number" id ="prioridade" name = "prioridade">
+        <input type="text" id="name" name = "name" required> <br>
+        <label for="prioridade">Prioridade</label> 
+        <input type="number" id ="prioridade" name = "prioridade" required>
         <input type="submit" class = "btn-criar" value = "Criar Tarefa">
     </form>
-    <form action="/limpar_banco" method = "post" class = "form-limpar"></form>
+    <form action="/limpar-banco" method = "post" class = "form-limpar">
         <input type="submit" class = "btn-limpar" value = "Limpar Lista">
-    
+    </form>
     <h2>Lista Tarefas</h2>
-
     <ul>
-    {% for tarefa in tarefas %}
-        <li> Nome: {{ tarefa [1]}} Prioridade: {{tarefa[2]}} </li>
+    {% for i in tarefa %}
+        <li> Nome: {{ i [0] }} Prioridade: {{ i [1]}} </li>
     {% endfor %}
     </ul>
 
