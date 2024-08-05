@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Sistema de Gestão</title>
 </head>
 <body>
+    
+        <h1 id = "titulo"> Gestão de tarefas </h1>
+                <form action="/" method ='post'>
+                    <label for="name"> Nome da Atividade </label>
+                    <input type="text" id="name" name = "name" required> <br>
+                    <label for="prioridade">Prioridade</label> 
+                    <input type="number" id ="prioridade" name = "prioridade" required>
+                    <input type="submit" class = "btn-criar" value = "Criar Tarefa">
+                </form>
+            </container>
 
-    <h1> Gestão de tarefas </h1>
 
-    <form action="/" method ='post'>
-        <label for="name"> Nome da Atividade </label>
-        <input type="text" id="name" name = "name" required> <br>
-        <label for="prioridade">Prioridade</label> 
-        <input type="number" id ="prioridade" name = "prioridade" required>
-        <input type="submit" class = "btn-criar" value = "Criar Tarefa">
-    </form>
-    <form action="/limpar-banco" method = "post" class = "form-limpar">
-        <input type="submit" class = "btn-limpar" value = "Limpar Lista">
-    </form>
-    <h2>Lista Tarefas</h2>
-    <ul>
-    {% for i in tarefa %}
-        <li> Nome: {{ i [0] }} Prioridade: {{ i [1]}} </li>
-    {% endfor %}
-    </ul>
+            <form action="/limpar-banco" method = "post" class = "form-limpar">
+                <input type="submit" class = "btn-limpar" value = "Limpar Lista">
+            </form>
+
+
+            <h2>Lista Tarefas</h2>
+            <ul>
+
+            {% for i in tarefa %}
+                <li> Nome: {{ i [1] }} Prioridade: {{ i [2]}} <form action="/limpar-tarefa/{{ i[0] }}" method = 'post' class = "limpar-tarefa"> <input type="submit" class = "btn-limpar-tarefa" value = "Excluir"></form></li> 
+            {% endfor %}
+            </ul>
 
 </body>
 </html>
